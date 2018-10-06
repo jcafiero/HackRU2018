@@ -19,6 +19,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "create-react-app": "^2.0.3",
-    "fs": "0.0.1-security"
+    "fs": "0.0.1-security",
+    "request": "^2.88.0"
   }
 }
