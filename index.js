@@ -10,41 +10,11 @@ const options = {
     }
 };
 
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-=======
+
 let report = {};
 let jobReport = {};
-let companyIDs = [13, 18, 20, 21, 22, 23]
+// let companyIDs = [13, 18, 20, 21, 22, 23]
 
->>>>>>> 6cd192d7d920db1c893b58fb4d4aeeea6b4903b6
-let main = async () => {
-    for (let id of companyIDs) {
-        let jobs = await getJobs(id);
-        jobReport[id] = (jobs);
-        let people = await getAllPeople(id);
-        report[people] = people;
-    }
-    // console.log(jobReport);
-    console.log(report);
-
-
-    await fs.writeFile('report.json', JSON.stringify(jobReport, null, 4));
-}
-
-let getJobs = async (companyID) => {
-    options.url = `${companyID}/jobs`;
-    let jobsList = [];
-    req = await axios.request(options).catch((e) => {console.log(e)});
-    if (req) {
-        jobsList = req.data;
-    }
-    return { jobsList };
-}
-<<<<<<< HEAD
-=======
-let report = {};
-let jobReport = {};
 let companyIDs = [13]
 
 let main = async () => {
@@ -103,22 +73,3 @@ let getPersonSkills = async (companyID, personID) => {
 // }
 
 main().catch(e => {console.error(e)});
->>>>>>> Stashed changes
-=======
-
-let getAllPeople = async (companyID) => {
-    options.url = `${companyID}/people`;
-    let people = [];
-    req = await axios.request(options).catch((e) => {console.log(e)});
-    if (req) {
-        for (let line in req.data) {
-            console.log(line);
-        }
-        // console.log(req.data);
-        people = req.data.id;
-    }
-    return people;
-}
-
-main().catch(e => {console.error(e)});
->>>>>>> 6cd192d7d920db1c893b58fb4d4aeeea6b4903b6
