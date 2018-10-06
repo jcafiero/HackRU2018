@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/jcafiero/HackRU2018/issues"
   },
-  "homepage": "https://github.com/jcafiero/HackRU2018#readme"
+  "homepage": "https://github.com/jcafiero/HackRU2018#readme",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "create-react-app": "^2.0.3",
+    "fs": "0.0.1-security"
+  }
 }
