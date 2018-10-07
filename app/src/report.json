@@ -1,5 +1,5 @@
 {
-    "Math" : [
+    "Math" : {
         "MIT": [
             "Mathematician"
         ],
@@ -7,17 +7,48 @@
             "Data Science",
             "Data Analyst"
         ]
-    ],
-    "Programming" : [
+    },
+    "Programming" : {
         "iCIMS" : [
             "Software Engineer",
             "Data Analyst",
             "UX Developer"
-        ]
+        ],
         "Google" : [
             "Software Engineer",
             "Front-end Developer"
         ]
-    ]
+    }, 
+    "Art" : {
+        "MOMA" : [
+            "Art Curator"
+        ]
+    },
+    "Science" : {
+        "Hoboken Animal Hospital" : [
+            "Veternarian",
+            "Lab Technician"
+        ]
+    },
+    "English" : {
+        "New York Times" : [
+            "Editor",
+            "Byline Specialist"
+        ],
+        "National Enquirer" : [
+            "Elvis Conspiracy Columnist"
+        ]
+    },
+    "Spanish": {
+        "Travel Agency" : [
+            "Travel Agent"
+        ],
+        "United Nations" : [
+            "Politician"
+        ],
+        "Holmdel High School" : [
+            "Spanish Teacher"
+        ]
+    }
 
 }

@@ -20,6 +20,7 @@
     "axios": "^0.18.0",
     "create-react-app": "^2.0.3",
     "fs": "0.0.1-security",
+    "react-native-elements": "^0.19.1",
     "request": "^2.88.0"
   }
 }
