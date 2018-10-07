@@ -34,18 +34,19 @@ let main = async () => {
     for (let company of companyIDs) {
         let jobs = await getJobs(company);
         jobReport[company] = (jobs);
+        console.log(getSuccessApplications(company))
 
         //call getAllPeopleInCompany
         let people = await getAllPeopleInCompany(company);
         for (let person of people) {
             let skills = await getPersonSkills(company, person);
-            console.log(skills);
+            //console.log(skills);
             report[person] = skills;
         }
 
     }
     await getPersonSkills(13, 2049);
-    console.log(report);
+    //console.log(report);
 
     await fs.writeFile('report.json', JSON.stringify(jobReport, null, 4));
 }
@@ -86,14 +87,29 @@ let getAllPeopleInCompany = async (companyID) => {
     
     if (req) {
         for(d in req.data){
-            console.log(req.data[d].id);
+            //console.log(req.data[d].id);
             people.push(req.data[d].id);
         }
     }
     return people;
 }
 
+let getSuccessApplications = async (companyID) => {
+    options.url = `${companyID}/applications`;
+    let applications = [];
+    req = await axios.request(options).catch((e) => {console.log(e)});
 
+    if(req){
+        for(app in req.data){
+            if(req.data[app].status == "OFFER_ACCEPTED" || req.data[app].status == "OFFER_REJECTED" || req.data[app].status == "OFFER_EXTENDED"){
+                console.log("success");
+                applications.push(req.data[app]);
+            }
+        }
+    }
+    console.log(applications);
+    return applications;
+}
 
 match = () => {
     let matchedObj = {};
