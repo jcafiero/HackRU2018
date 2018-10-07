@@ -13,20 +13,40 @@ const options = {
 
 let report = {};
 let jobReport = {};
+let subjects = {
+    "Math": ["Mathematics", "Engineering", "Accounting", "Architecture", "Aerospace Engineering",
+        "Civil Engineering", "Biomedical Engineering", "Finance & Economics",
+        "Marketing", "Mechanical Engineering"],
+    "Science": ["Photosynthesis", "Engineering", "Animals", "Alchemy", "Urban Planning",
+        "Neurosurgery", "Architecture", "Social Science", "Astronomy", "Pre - Veterinary Medicine",
+        "Environmental Science", "Marine Science", "Botany", "Chemistry"],
+    "Programming": ["NodeJS", "Python", "ReactJS", "Graphics", "Full-stack", "Industrial Technology",
+        "Erlang", "APIs", "Hackathons", "Computer Science"],
+    "Spanish":["Foreign languages",],
+    "Art":["Painting", "Dance", "Graphics", "Singing", "Education", "Music", "Apparel/Textile Design"],
+    "English":["Literary theory", "Copywriting", "Education", "Talking", "English"]
+};
 // let companyIDs = [13, 18, 20, 21, 22, 23]
 
 let companyIDs = [13]
 
 let main = async () => {
-    for (let id of companyIDs) {
-        let jobs = await getJobs(id);
-        jobReport[id] = (jobs);
-        // let persons = await getAllPeople(id);
-        // report['people'] = persons;
-    }
-    console.log(jobReport);
-    await getPersonSkills(13, 2049);
+    for (let company of companyIDs) {
+        let jobs = await getJobs(company);
+        jobReport[company] = (jobs);
+        console.log(getSuccessApplications(company))
 
+        //call getAllPeopleInCompany
+        let people = await getAllPeopleInCompany(company);
+        for (let person of people) {
+            let skills = await getPersonSkills(company, person);
+            //console.log(skills);
+            report[person] = skills;
+        }
+
+    }
+    await getPersonSkills(13, 2049);
+    //console.log(report);
 
     await fs.writeFile('report.json', JSON.stringify(jobReport, null, 4));
 }
@@ -50,8 +70,8 @@ let getPersonSkills = async (companyID, personID) => {
         for (let school of education) {
             skills.push(school.major);
         }
-        skills = req.data.skills;
-        for (let skill of skills) {
+        
+        for (let skill of req.data.skills) {
             if (skill.name) {
                 skills.push(skill.name);
             }
@@ -60,16 +80,45 @@ let getPersonSkills = async (companyID, personID) => {
     return skills;
 }
 
-// let getAllPeople = async (companyID) => {
-//     options.url = `${companyID}/people`;
-//     let people = [];
-//     req = await axios.request(options).catch((e) => {console.log(e)});
-//     console.log(req);
-//     if (req) {
-//         // console.log(req.data);
-//         people = req.data.id;
-//     }
-//     return people;
-// }
+let getAllPeopleInCompany = async (companyID) => {
+    options.url = `${companyID}/people`;
+    let people = [];
+    req = await axios.request(options).catch((e) => {console.log(e)});
+    
+    if (req) {
+        for(d in req.data){
+            //console.log(req.data[d].id);
+            people.push(req.data[d].id);
+        }
+    }
+    return people;
+}
+
+let getSuccessApplications = async (companyID) => {
+    options.url = `${companyID}/applications`;
+    let applications = [];
+    req = await axios.request(options).catch((e) => {console.log(e)});
+
+    if(req){
+        for(app in req.data){
+            if(req.data[app].status == "OFFER_ACCEPTED" || req.data[app].status == "OFFER_REJECTED" || req.data[app].status == "OFFER_EXTENDED"){
+                console.log("success");
+                applications.push(req.data[app]);
+            }
+        }
+    }
+    console.log(applications);
+    return applications;
+}
+
+match = () => {
+    let matchedObj = {};
+
+    //take app id when offer
+    //take person id of that match and match the company
+    //this adds positive attributes to the position
+
+    return matchedObj;
+}
 
 main().catch(e => {console.error(e)});
