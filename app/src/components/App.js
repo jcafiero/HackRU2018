@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
+import data from '../data/report.json';
+import DataContainer from './DataContainer';
 
-import './App.css';
+import '../App.css';
 
 let btn1 = "";
 let btns = []
@@ -14,8 +16,12 @@ class App extends Component {
   //     });
   // }
   // btns.foreach(getBtnId);
+  provideData = (data) => {
+    return { data }
+  }
 
   render() {
+    const { data } = this.provideData(data);
     return (
       <div className="App">
         <h2 className="heading col-12">I want to study...</h2>
@@ -30,6 +36,9 @@ class App extends Component {
                 <Button id="spanish-btn"className="col-4 btn btn-primary button" bsSize="large">Spanish</Button>
             </div>
             <div className="col-3">&nbsp;</div>
+        </div>
+        <div className="row">
+          <DataContainer data={data}></DataContainer>
         </div>
       </div>
     );
