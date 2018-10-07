@@ -133,6 +133,7 @@ let getSuccessApplications = async (companyID) => {
     return applications;
 }
 
+//Attempt at matching
 let matcher = async (successApps, companyID, skills) => {
     options.url = `${companyID}`;
     req  = await axios.request(options).catch((e) => {console.log(e)});
@@ -144,17 +145,11 @@ let matcher = async (successApps, companyID, skills) => {
     //console.log(successApps);
     for (app in successApps){
         //console.log("hello");
-        //check persons skills
-        //if skill in math, add job to company under math
-
-        //for each subject do the match. if match,
         for(subj in subjects){
             //console.log(subj);
             for(skill of skills){
                 if(subjects[subj].includes(skill)){
-                    // console.log("A match!");
-                    // console.log(successApps[app].id + " " + skill + " " + subj);
-                    //console.log(subjects[subj] + " " + skill);
+                    
                     let jobName = await getJobName(companyID, successApps[app].jobId);
                     if(companyName in matchedObj[subj]){
                         
@@ -166,9 +161,6 @@ let matcher = async (successApps, companyID, skills) => {
             }
         } 
     }
-    // console.log(matchedObj);
-    // console.log(companyName);
-    // console.log(req.data.name);
     return matchedObj;
 }
 
