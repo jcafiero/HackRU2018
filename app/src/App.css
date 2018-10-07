@@ -22,17 +22,23 @@
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.Prompt {
+  text-align: left;
+  padding-left: 10%;
+  padding-top: 5%;
+  padding-bottom: 3%;
+  color: black;
+  margin: auto;
 }
 
+<<<<<<< Updated upstream
 .button {
     height: 200px;
     width: 200px;
     margin: 10px;
 }
+=======
+body {
+  background-color: #c0e0db;
+}
+>>>>>>> Stashed changes
