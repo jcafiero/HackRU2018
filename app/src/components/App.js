@@ -21,7 +21,7 @@ class App extends Component {
   }
 
   render() {
-    const { data } = this.provideData(data);
+    const { blahdata } = this.provideData(data);
     return (
       <div className="App">
         <h2 className="heading col-12">I want to study...</h2>
@@ -37,8 +37,8 @@ class App extends Component {
             </div>
             <div className="col-3">&nbsp;</div>
         </div>
-        <div className="row">
-          <DataContainer data={data}></DataContainer>
+        <div className="row helllooooo">
+          <DataContainer data={blahdata}></DataContainer>
         </div>
       </div>
     );
