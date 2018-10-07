@@ -13,6 +13,15 @@ const options = {
 
 let report = {};
 let jobReport = {};
+let matchedObj = {
+    "Math" :{},
+    "Science":{},
+    "Programming":{},
+    "Spanish":{},
+    "Art":{},
+    "English":{}
+};
+
 let subjects = {
     "Math": ["Mathematics", "Engineering", "Accounting", "Architecture", "Aerospace Engineering",
         "Civil Engineering", "Biomedical Engineering", "Finance & Economics",
@@ -34,16 +43,17 @@ let main = async () => {
     for (let company of companyIDs) {
         let jobs = await getJobs(company);
         jobReport[company] = (jobs);
-        console.log(getSuccessApplications(company))
+        success = await getSuccessApplications(company);
+        
 
         //call getAllPeopleInCompany
         let people = await getAllPeopleInCompany(company);
         for (let person of people) {
             let skills = await getPersonSkills(company, person);
-            //console.log(skills);
             report[person] = skills;
+            matchedObj = await matcher(success, company, skills);
         }
-
+        console.log(matchedObj);
     }
     await getPersonSkills(13, 2049);
     //console.log(report);
@@ -60,6 +70,18 @@ let getJobs = async (companyID) => {
     }
     return { jobsList };
 };
+
+let getJobName = async (companyID, jobId) => {
+    options.url = `${companyID}/jobs/${jobId}`;
+    let jobsList = "";
+    req = await axios.request(options).catch((e) => {console.log(e)});
+    if (req) {
+        jobsList = req.data.title;
+    }
+    //console.log(jobsList);
+    return jobsList;
+};
+
 
 let getPersonSkills = async (companyID, personID) => {
     let skills = [];
@@ -102,22 +124,51 @@ let getSuccessApplications = async (companyID) => {
     if(req){
         for(app in req.data){
             if(req.data[app].status == "OFFER_ACCEPTED" || req.data[app].status == "OFFER_REJECTED" || req.data[app].status == "OFFER_EXTENDED"){
-                console.log("success");
+                //console.log("success");
                 applications.push(req.data[app]);
             }
         }
     }
-    console.log(applications);
+    //console.log(applications);
     return applications;
 }
 
-match = () => {
-    let matchedObj = {};
-
+let matcher = async (successApps, companyID, skills) => {
+    options.url = `${companyID}`;
+    req  = await axios.request(options).catch((e) => {console.log(e)});
+    let companyName = req.data.name;
     //take app id when offer
     //take person id of that match and match the company
     //this adds positive attributes to the position
+    // console.log(skills);
+    //console.log(successApps);
+    for (app in successApps){
+        //console.log("hello");
+        //check persons skills
+        //if skill in math, add job to company under math
 
+        //for each subject do the match. if match,
+        for(subj in subjects){
+            //console.log(subj);
+            for(skill of skills){
+                if(subjects[subj].includes(skill)){
+                    // console.log("A match!");
+                    // console.log(successApps[app].id + " " + skill + " " + subj);
+                    //console.log(subjects[subj] + " " + skill);
+                    let jobName = await getJobName(companyID, successApps[app].jobId);
+                    if(companyName in matchedObj[subj]){
+                        
+                        matchedObj[subj][companyName].push(jobName);
+                    } /*else{
+                        matchedObj[subj][companyName] = [jobName];
+                    }*/
+                }
+            }
+        } 
+    }
+    // console.log(matchedObj);
+    // console.log(companyName);
+    // console.log(req.data.name);
     return matchedObj;
 }
 
